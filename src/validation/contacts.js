@@ -17,7 +17,7 @@ export const createContactSchema = Joi.object({
   contactType: Joi.string().valid('work', 'home', 'personal').required(),
 });
 
-export const patchContactSchema = Joi.object({
+export const contactsPatchSchema = Joi.object({
   name: Joi.string().min(3).max(20).messages({
     'string.base': 'Username should be a string',
     'string.min': 'Username should have at least {#limit} characters',
