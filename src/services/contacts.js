@@ -24,13 +24,16 @@ export const getAllContacts = async ({
       .equals(filter.isFavourite);
   }
 
+  if (filter.type) {
+    contactsQuery = contactsQuery.where('contactType').equals(filter.type);
+  }
+
   const contactsCount = await ContactsCollection.countDocuments({
     userId,
     ...contactsQuery.getFilter(),
   });
 
   const contacts = await contactsQuery
-    .where('userId', userId)
     .skip(skip)
     .limit(limit)
     .sort({ [sortBy]: sortOrder })
@@ -82,7 +85,7 @@ export const updateContact = async (
   if (!rawResult || !rawResult.value) return null;
 
   return {
-    student: rawResult.value,
+    contact: rawResult.value,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };

@@ -40,6 +40,7 @@ contactsRouter.delete(
   isValidId,
   ctrlWrapper(deleteContactController),
 );
+
 contactsRouter.put(
   '/:contactId',
   isValidId,
