@@ -2,11 +2,18 @@ import { UsersCollection } from '../db/models/user.js';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { randomBytes } from 'crypto';
-import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
+import {
+  FIFTEEN_MINUTES,
+  THIRTY_DAYS,
+  TEMPLATES_DIR,
+} from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
 import jwt from 'jsonwebtoken';
 import { env } from '../utils/env.js';
 import { sendEmail } from '../utils/sendMail.js';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import handlebars from 'handlebars';
 
 export const registerUser = async (payload) => {
   const { email, password } = payload;
@@ -122,7 +129,7 @@ export const requestResetToken = async (email) => {
 
   const resetPasswordTemplatePath = path.join(
     TEMPLATES_DIR,
-    'reset-password-email.html',
+    'send-reset-password-email.html',
   );
 
   const templateSource = (
