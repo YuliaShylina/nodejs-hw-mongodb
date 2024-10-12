@@ -105,7 +105,7 @@ export const findSessionByAccessToken = (accessToken) =>
 export const findUser = (filter) => UsersCollection.findOne(filter);
 
 export const requestResetToken = async (email) => {
-  const user = await UserCollection.findOne({ email });
+  const user = await UsersCollection.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
@@ -161,7 +161,7 @@ export const resetPassword = async (payload) => {
     throw err;
   }
 
-  const user = await UserCollection.findOne({
+  const user = await UsersCollection.findOne({
     email: entries.email,
     _id: entries.sub,
   });
@@ -172,7 +172,7 @@ export const resetPassword = async (payload) => {
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  await UserCollection.updateOne(
+  await UsersCollection.updateOne(
     { _id: user._id },
     { password: encryptedPassword },
   );
